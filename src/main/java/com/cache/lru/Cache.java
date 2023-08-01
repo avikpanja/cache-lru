@@ -7,14 +7,12 @@ import java.util.Map;
 import java.util.Optional;
 
 public class Cache {
-
-	private static final long DEAULT_SIZE_CONSTRAINT = 4;
-	
-	private List<Entry> cache;
-	private long capacity;
+	private static final long DEFAULT_SIZE_CONSTRAINT = 4;
+	private List<Entry> cache = null;
+	private long capacity = 0;
 	private long size = 0;
 	
-	class Entry implements Comparable<Entry> {
+	private static class Entry implements Comparable<Entry> {
 		String key;
 		String value;
 		
@@ -29,7 +27,7 @@ public class Cache {
 		
 		public boolean equals(Entry another) {
 			System.out.println("equals called");
-			return this.key == another.key;
+			return this.key.equals(another.key);
 		}
 		@Override
 		public String toString() {
@@ -39,7 +37,7 @@ public class Cache {
 		
 	public Cache() {
 		this.cache = new LinkedList<>();
-		this.capacity = DEAULT_SIZE_CONSTRAINT;
+		this.capacity = DEFAULT_SIZE_CONSTRAINT;
 	}
 	
 	public long size() { return size; }
@@ -65,7 +63,7 @@ public class Cache {
 	}
 	
 	public void storeData(String key, String value) {
-		final int index[] = new int[] {-1}; 
+		final int[] index = new int[] {-1};
 		
 		Optional<Entry> optEntry = this.cache
 				.stream()
@@ -82,28 +80,10 @@ public class Cache {
 			}
 			this.cache.add(new Entry(key, value));
 		}
-	} 
-	
+	}
+
 	@Override
 	public String toString() {
-		
 		return this.cache.toString();
-	}
-	
-	public static void main(String[] args) {
-		Cache c = new Cache();
-		System.out.println(c.size());
-		
-		c.storeData("Name", "Avik");
-		c.storeData("Roll", "32");
-		c.storeData("Stream", "mca");
-		c.storeData("Subject", "Java");
-		
-		System.out.println(c);
-		
-		System.out.println(c.getData("Roll"));
-		System.out.println(c);
-		System.out.println(c.getData("Name"));
-		System.out.println(c);
 	}
 }
