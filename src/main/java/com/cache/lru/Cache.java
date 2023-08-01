@@ -1,15 +1,13 @@
 package com.cache.lru;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 public class Cache {
 	private static final long DEFAULT_SIZE_CONSTRAINT = 4;
-	private List<Entry> cache = null;
-	private long capacity = 0;
+	private List<Entry> cache;
+	private long capacity;
 	private long size = 0;
 	
 	private static class Entry implements Comparable<Entry> {
@@ -43,7 +41,7 @@ public class Cache {
 	public long size() { return size; }
 	
 	public Optional<String> getData(String key) {
-		final int index[] = new int[] {-1}; 
+		final int[] index = new int[] {-1};
 		Optional<String> optData = Optional.empty();
 		Optional<Entry> optEntry = this.cache
 				.stream()
