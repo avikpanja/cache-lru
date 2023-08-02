@@ -11,11 +11,12 @@ public class Cache {
 	private long size = 0;
 	
 	private static class Entry implements Comparable<Entry> {
-		String key;
-		String value;
+		private String key;
+		private String value;
 		
 		public Entry(String key, String value) {
-			this.key = key; this.value = value;
+			this.key = key; 
+			this.value = value;
 		}
 		
 		public int compareTo(Entry another) {
@@ -23,10 +24,12 @@ public class Cache {
 			return this.key.compareTo(another.key);
 		}
 		
-		public boolean equals(Entry another) {
+		@Override
+		public boolean equals(Object another) {
 			System.out.println("equals called");
-			return this.key.equals(another.key);
+			return this.key.equals(((Entry)another).key);
 		}
+		
 		@Override
 		public String toString() {
 			return key;
@@ -42,6 +45,7 @@ public class Cache {
 	
 	public Optional<String> getData(String key) {
 		final int[] index = new int[] {-1};
+		
 		Optional<String> optData = Optional.empty();
 		Optional<Entry> optEntry = this.cache
 				.stream()
@@ -51,7 +55,7 @@ public class Cache {
 				})
 				.findAny();
 		if(optEntry.isPresent()) {
-			if(index[0]!=this.size-1) {
+			if(index[0] != this.size-1) {
 				this.cache.remove(optEntry.get());
 				this.cache.add(optEntry.get());
 			}
@@ -71,7 +75,7 @@ public class Cache {
 				})
 				.findAny();
 		if(optEntry.isEmpty()) {
-			if(this.size==this.capacity) {
+			if(this.size == this.capacity) {
 				this.cache.remove(0);
 			} else {
 				++size;
